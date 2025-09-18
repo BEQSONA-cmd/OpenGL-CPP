@@ -18,7 +18,6 @@ class Keys
         static std::vector<int> keys;
     public:
         static void print_key(int key);
-        static bool isKeyPressed(GLFWwindow *window, int key);
         static bool Close(GLFWwindow *window);
         static int key_pressed(GLFWwindow *window);
 };

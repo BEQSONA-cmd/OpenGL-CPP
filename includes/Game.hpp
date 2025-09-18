@@ -11,13 +11,12 @@
 #include <GLFW/glfw3.h>
 #include <GL/glut.h>
 #include <sstream>
+#include <cmath>
 #include <iomanip>
 #include "Keys.hpp"
 
 #define WINDOW_WIDTH 1280
 #define WINDOW_HEIGHT 720
-#define X_TRANS 2.0f / 1280
-#define Y_TRANS 2.0f / 720
 
 typedef struct s_Point
 {
@@ -25,41 +24,47 @@ typedef struct s_Point
     float y;
 } Point;
 
-class Player
-{
-    private:
-
-    public:
-        Player();
-        ~Player();
-
-        float x;
-        float y;
-
-        Point size;
-
-        void move(int key);
-};
 
 class Game
 {
-    private:
-        GLFWwindow *window;
-        std::string Name;
-        Player player;
-    public:
-        Game(std::string name) { this->Name = name; }
-        ~Game() 
-        { 
-            std::cout << YELLOW << "Game Closed." << RESET << std::endl; 
-            if(this->window)
-                glfwDestroyWindow(this->window);
-            glfwTerminate();
-        }
+private:
+    GLFWwindow *window;
+    std::string Name;
 
-        void init_opengl();
+    // Camera rotation
+    float cam_angle_x = 30.0f;
+    float cam_angle_y = -45.0f;
+    float cam_distance = 5.0f;
 
-        void run();
+    // Mouse    
+    double last_mouse_x = 0;
+    double last_mouse_y = 0;
+    bool mouse_pressed = false;
+    bool show_grid = true;        // toggle grid
+    std::string typed_text = "";  // placeholder for input text
+
+public:
+    Game(std::string name) { this->Name = name; }
+    ~Game() { 
+        std::cout << YELLOW << "Game Closed." << RESET << std::endl; 
+        if(this->window)
+            glfwDestroyWindow(this->window);
+        glfwTerminate();
+    }
+
+    void draw_grid();
+    void update_camera();
+    void mouse_callbacks();
+    void draw_ui();
+
+    static void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
+
+    void init_opengl();
+    void run();
 };
+
+
+void draw_text(const std::string& text, Point position,float color[3]);
+void draw_fps(float fps);
 
 #endif

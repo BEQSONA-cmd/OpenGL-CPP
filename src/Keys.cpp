@@ -2,16 +2,6 @@
 
 std::vector<int> Keys::keys = {ESC, SPACE, ENTER, W, A, S, D};
 
-bool Keys::isKeyPressed(GLFWwindow *window, int key)
-{
-    if(glfwGetKey(window, key) == GLFW_PRESS)
-    {
-        // print_key(key);
-        return true;
-    }
-    return false;
-}
-
 void Keys::print_key(int key)
 {
     switch(key)
@@ -29,19 +19,18 @@ void Keys::print_key(int key)
 
 bool Keys::Close(GLFWwindow *window)
 {
-    if(glfwWindowShouldClose(window) || isKeyPressed(window, ESC))
+    if(glfwWindowShouldClose(window) || glfwGetKey(window, ESC) == GLFW_PRESS)
         return true;
     return false;
 }
 
 int Keys::key_pressed(GLFWwindow *window)
 {
-    std::vector<int> all_keys = keys;
     size_t i = 0;
-    while(i < all_keys.size())
+    while(i < keys.size())
     {
-        if(isKeyPressed(window, all_keys[i]))
-            return all_keys[i];
+        if(glfwGetKey(window, keys[i]) == GLFW_PRESS)
+            return keys[i];
         i++;
     }
     return 0;
