@@ -11,6 +11,7 @@
 #define A 65
 #define S 83
 #define D 68
+#define M 77
 
 class Keys
 {

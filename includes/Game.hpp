@@ -40,7 +40,6 @@ private:
     double last_mouse_x = 0;
     double last_mouse_y = 0;
     bool mouse_pressed = false;
-    bool show_grid = true;        // toggle grid
     std::string typed_text = "";  // placeholder for input text
 
 public:
@@ -55,7 +54,7 @@ public:
     void draw_grid();
     void update_camera();
     void mouse_callbacks();
-    void draw_ui();
+    void draw_ui(double last_time);
 
     static void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 
@@ -65,6 +64,6 @@ public:
 
 
 void draw_text(const std::string& text, Point position,float color[3]);
-void draw_fps(float fps);
+std::string get_fps(double last_time);
 
 #endif

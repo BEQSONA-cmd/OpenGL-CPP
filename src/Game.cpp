@@ -31,7 +31,7 @@ void Game::init_opengl()
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     gluPerspective(
-        45.0,                                // FOV
+        90.0,                                // FOV
         (double)WINDOW_WIDTH / WINDOW_HEIGHT,// Aspect ratio
         0.1,                                 // Near plane
         500.0                                // Far plane (increase)
@@ -45,32 +45,6 @@ void Game::init_opengl()
     // disable vsync
     glfwSwapInterval(0);
 }
-
-void Game::draw_ui()
-{
-    // Draw button
-    glMatrixMode(GL_PROJECTION);
-    glPushMatrix();
-    glLoadIdentity();
-    glOrtho(0, WINDOW_WIDTH, 0, WINDOW_HEIGHT, -1, 1);
-    glMatrixMode(GL_MODELVIEW);
-    glPushMatrix();
-    glLoadIdentity();
-
-    // Draw placeholder text
-    float color[3] = {1.0f, 1.0f, 1.0f};
-    Point pos = {10.0f, 10.0f};
-    if(typed_text.empty())
-        draw_text("Type here...", pos, color);
-    else
-        draw_text(typed_text, pos, color);
-
-    glPopMatrix();
-    glMatrixMode(GL_PROJECTION);
-    glPopMatrix();
-    glMatrixMode(GL_MODELVIEW);
-}
-
 
 void Game::run()
 {
@@ -87,13 +61,7 @@ void Game::run()
         mouse_callbacks();
         update_camera();
         draw_grid();
-
-        if(show_grid)
-            draw_grid();
-
-        draw_ui();   
-
-        draw_fps(last_time);
+        draw_ui(last_time);   
 
         glfwSwapBuffers(this->window);
         glfwPollEvents();
